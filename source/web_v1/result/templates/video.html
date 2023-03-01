@@ -1,0 +1,12 @@
+<html>
+	<head>
+		 <head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+
+        <body>
+
+		<video width="80%"  controls autoplay> 
+			<source src="{{ url_for('download_file', filename=source) }}#t={{keyframe}}" type="video/mp4">
+		</video> 
+	</body> 
+</html> 

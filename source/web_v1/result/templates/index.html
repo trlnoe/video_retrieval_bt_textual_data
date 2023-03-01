@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<style>
+		.photo {
+			transform: scale(1);
+			transition: transform .5s;
+			position: relative;
+		}
+
+		.photo:hover {
+			transform: scale(3);
+		}
+
+		.insider {
+			z-index: -1;
+			position: relative;
+		}
+
+		.insider:hover {
+			position: relative;
+			z-index: 99 !important;
+		}
+
+
+
+		.thumbnail {
+			width: 280px;
+			height: auto;
+			top: -50px;
+			left: -35px;
+			display: block;
+			z-index: 999;
+			cursor: pointer;
+			-webkit-transition-property: all;
+			-webkit-transition-duration: 0.3s;
+			-webkit-transition-timing-function: ease;
+		}
+
+		/*change the number below to scale to the appropriate size*/
+		.thumbnail:hover {
+			transform: scale(3);
+		}
+	</style>
+</head>
+
+<body>
+	<input type="hidden" id="folder_path_a" name="folder_path_a" value="0">
+
+	<div class="" style="z-index: -1;">
+		<h1>Simple image search engine in folder {{ original_path }}</h1>
+		<form method="POST" action="/">
+			<select name="path_a_option" id="path_a" onchange="change_path_a()">
+				{% for item in path_a %}
+				<option value="{{ item }}"> {{ item }} </option>
+
+				{% endfor %}
+			</select>
+
+			<select name="path_b_option" id="path_b" onchange="change_path_b()">
+				{% for item in path_b %}
+				<option value="{{ item }}"> {{ item }} </option>
+				{% endfor %}
+			</select>
+
+			<select name="path_c_option" id="path_c">
+				{% for item in path_c %}
+				<option value="{{ item }}"> {{ item }} </option>
+				{% endfor %}
+			</select>
+
+
+			<button type="submit"> Submit</button>
+		</form>
+		<h2>Query:</h2>
+		{% if query_path %}
+		<img src="{{ query_path }}" width="300px">
+		{% endif %}
+		<h2>Results:</h2>
+		{% for score in scores %}
+		<div class="thumbnail" style="float: left; margin-right: 20px; margin-bottom: 20px;" height="200px">
+			<img class="" src="{{ url_for('download_file', filename=score[1]) }}" height="200px">
+			<a href="{{ url_for('download_file', filename=score[1]) }}" target="_blank">{{video_path}}/{{ score[1]}}</label>
+		</div>
+		{% endfor %}
+	</div>
+
+	<script type="text/javascript">
+		function change_path_a() {
+			folder_a = document.getElementById("path_a").value;
+			b_selectBox = document.getElementById("path_b");
+			for (var i = 0; i < b_selectBox.options.length; i++) {
+				b_selectBox.options[i].text = b_selectBox.options[i].value + folder_a;
+			}
+		}
+
+
+		function change_path_b() {
+			folder_b = document.getElementById("path_b").value;
+			c_selectBox = document.getElementById("path_c");
+			for (var i = 0; i < c_selectBox.options.length; i++) {
+				c_selectBox.options[i].text = folder_b.slice(-6) + c_selectBox.options[i].text;
+			}
+
+		}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<style>
+		.photo {
+			transform: scale(1);
+			transition: transform .5s;
+			position: relative;
+		}
+
+		.photo:hover {
+			transform: scale(3);
+		}
+
+		.insider {
+			z-index: -1;
+			position: relative;
+		}
+
+		#submit {
+			width: 100%;
+			height: 50px;
+		}
+
+		.insider:hover {
+			position: relative;
+			z-index: 99 !important;
+		}
+
+		#query {
+			width: 100%;
+			height: 30px;
+			font-size: 14px;
+		}
+
+		#query option {
+			font-size: 24px;
+		}
+
+		.thumbnail-img {
+			width: 60%;
+			height: auto;
+			top: -50px;
+			left: -35px;
+			display: block;
+			z-index: 999;
+			cursor: pointer;
+			-webkit-transition-property: all;
+			-webkit-transition-duration: 0.3s;
+			-webkit-transition-timing-function: ease;
+		}
+
+		/*change the number below to scale to the appropriate size*/
+		.thumbnail-img:hover {
+			transform: scale(1.5);
+
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="" style="z-index: -1; padding:10px;">
+		<h1>Simple image search engine in folder</h1>
+		<form method="POST" action="/">
+			<select name="query" id="query" onchange="change_query()">
+				{% for f in files: %}
+				<option name="query-id" value="{{ f }}"> {{ f }} </option>
+				{% endfor %}
+			</select>
+			<button type="submit" id="submit"> Submit</button>
+		</form>
+		<h2>Current Result: {{ query }}</h2>
+		<h2>Results:</h2>
+		<table>
+			<thead>
+				<tr>
+					<td style="width:10%;">
+						Result No.
+					</td>
+					<td style="width: 10%;">
+						Score
+					</td>
+					<td style="width: 10%;">
+						Video ID
+					</td>
+					<td style="width: 20%;">
+						Frame ID
+					</td>
+					<td style="width:50%;">
+						Frame
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for result in results %}
+				<tr>
+					<td style="width:10%;">
+						{{ result[0] }}
+					</td>
+					<td style="width: 10%;">
+						{{ result[4] }}
+
+					</td>
+					<td style="width: 10%">
+						<a href="{{ url_for('video', filename=result[5], keyframe=result[3]) }}" target="_blank"> {{
+							result[1] }}</a>
+					</td>
+					<td>
+						<a href="{{ url_for('download_file', filename=result[3]) }}" target="_blank">{{ result[3] }}</a>
+					</td>
+					<td>
+						<img class="thumbnail-img" src="{{ url_for('download_file', filename=result[3]) }}"
+							height="200px">
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">
+		function change_query() {
+			document.getElementById("submit").click();
+		}
+	</script>
+</body>
+
+</html>

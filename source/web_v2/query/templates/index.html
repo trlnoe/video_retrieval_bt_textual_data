@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<style>
+		.photo {
+			transform: scale(1);
+			transition: transform .5s;
+			position: relative;
+		}
+
+		.photo:hover {
+			transform: scale(3);
+		}
+
+		.insider {
+			z-index: -1;
+			position: relative;
+		}
+
+		#submit {
+			width: 400px;
+			height: 50px;
+		}
+
+		.insider:hover {
+			position: relative;
+			z-index: 99 !important;
+		}
+
+		.user_input {
+			width: 350px;
+			font-size: 24px;
+		}
+
+		.thumbnail {
+			width: 280px;
+			height: auto;
+			top: -50px;
+			left: -35px;
+			display: block;
+			z-index: 999;
+			cursor: pointer;
+			-webkit-transition-property: all;
+			-webkit-transition-duration: 0.3s;
+			-webkit-transition-timing-function: ease;
+		}
+
+		/*change the number below to scale to the appropriate size*/
+		.thumbnail:hover {
+			transform: scale(1.5);
+		}
+
+	</style>
+</head>
+
+<body>
+	<div style="z-index: -1;">
+		<h1><div style="text-align: center; font-size: 50px;" >SIU AILab-Pumpkin Soup </div></h1>
+		<div>
+			<form method="POST" action="/" style="display: flex;gap: 1rem; margin-top: 3rem; justify-content: space-between; padding-inline: 5rem;">
+				<div >
+				   	<label for="query">Text query</label>
+				
+					<div style="display: flex;">
+						<input name="text_query" id="text_query" class="user_input" type="text"></input>
+			
+						<div style="display: flex; flex-direction: column;">
+							<div style="display: flex;">
+								<input type="radio" name="text" id="OR" value="ON" checked>
+								<label for="ON">ON</label>
+							</div>
+							<div style="display: flex;">
+								<input type="radio" name="text" id="NONE" value="OFF" >
+								<label for="OFF">OFF</label>
+							</div>
+						</div>
+					</div>	
+					<input type="radio" id="model" name="model_choosing" value="B16" checked>
+					<label for="model">B16</label>
+					<input type="radio" id="model" name="model_choosing" value="L14_336">
+					<label for="model">L14_336</label>					
+				</div>
+				
+				<div>
+					<label for="fname">Text 2</label>
+				 
+					<div style="display: flex;">
+						   <input name="text_query2" id="fname" class="user_input" type="text" size=30></input>
+		   
+						 <div style="display: flex; flex-direction: column;">
+							 <div style="display: flex;">
+								 <input type="radio" name="text_2" id="ON" value="ON" checked>
+								 <label for="ON">ON</label>
+							 </div>
+							 <div style="display: flex;">
+								 <input type="radio" name="text_2" id="OFF" value="OFF" >
+								 <label for="OFF">OFF</label>
+							 </div>
+					   </div>
+					</div>
+				 </div>
+				
+				<div>
+				   <label for="fname">Paste image url</label>
+				
+				   <div style="display: flex;">
+					  <input name="image_query" id="fname" class="user_input" type="text" size=30></input>
+		  
+					  <div style="display: flex; flex-direction: column;">
+						 <div style="display: flex;">
+							<input type="radio" name="image" id="ON" value="ON" checked>
+							<label for="ON">ON</label>
+						 </div>
+						 <div style="display: flex;">
+							<input type="radio" name="image" id="OFF" value="OFF" >
+							<label for="OFF">OFF</label>
+						</div>
+					  </div>
+				   </div>
+				</div>
+		  
+				<div style="display: flex; flex-direction: column;">
+				   <label for="fname">Counting</label>
+				   <div style="display: flex;">
+						<input name="objetcs_query" id="fname" class="user_input" type="text" size=30></input>
+		
+						<div style="display: flex; flex-direction: column;">
+							<div style="display: flex;">
+								<input type="radio" name="objects" id="ON" value="ON" checked>
+								<label for="ON">ON</label>
+							</div>
+							<div style="display: flex;">
+								<input type="radio" name="objects" id="OFF" value="OFF" >
+								<label for="OFF">OFF</label>
+							</div>
+						</div>
+			 		</div>
+				</div>
+		  
+				<button type="submit" style="align-self: center;" id="submit"> Submit</button>
+			 </form>
+		</div> 
+
+		<h3>Query: {{ query }}</h3>
+		
+		
+		{% if query_path %}
+		<img src="{{ query_path }}" width="300px">
+		{% endif %}
+		<h3>Results: {{ quantity }}</h3>
+		{% for f, id in files %}
+		<div class="thumbnail" style="float: left; margin-right: 20px; margin-bottom: 20px;" height="200px">
+			<img class="" src="{{ url_for('download_file', filename=f) }}" height="200px">
+			<a href="{{ url_for('download_file', filename=f) }}" target="_blank">{{f }}</a>
+			<a>{{id}}</a>
+		</div>
+		{% endfor %}
+		
+	</div>
+
+
+	<!--<script>
+		// Get the input field
+		var input = document.getElementById("query");
+		// Execute a function when the user presses a key on the keyboard
+		input.addEventListener("keypress", function (event) {
+			// If the user presses the "Enter" key on the keyboard
+			if (event.key === "Enter") {
+				// Cancel the default action, if needed
+				event.preventDefault();
+				// Trigger the button element with a click
+				document.getElementById("submit").click();
+			}
+		});
+	</script>-->
+</body>
+
+</html>
